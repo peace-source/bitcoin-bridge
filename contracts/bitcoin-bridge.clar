@@ -29,3 +29,29 @@
 
 ;; Bridge State
 (define-data-var total-locked-bitcoin uint u0)
+
+;; Storage
+
+;; Oracle Management
+(define-map authorized-oracles 
+  principal  ;; Oracle address
+  bool      ;; Authorization status
+)
+
+;; Transaction Tracking
+(define-map processed-transactions 
+  { tx-hash: (string-ascii 64) }  ;; Bitcoin transaction hash
+  bool                           ;; Processing status
+)
+
+;; Recipient Management
+(define-map recipient-whitelist 
+  principal  ;; Recipient address
+  bool      ;; Whitelist status
+)
+
+;; User Balances
+(define-map user-balances 
+  { user: principal }  ;; User address
+  { amount: uint }     ;; Balance amount
+)

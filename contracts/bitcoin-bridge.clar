@@ -93,3 +93,16 @@
     )
   )
 )
+
+;; Transaction Validation
+(define-private (validate-bitcoin-transaction 
+  (btc-tx-hash (string-ascii 64))
+  (amount uint)
+)
+  (let ((authorized-validator (default-to false (map-get? authorized-oracles tx-sender))))
+    (asserts! (is-valid-tx-hash btc-tx-hash) ERR-INVALID-TX-HASH)
+    (asserts! (> amount u0) ERR-INVALID-AMOUNT)
+    (asserts! authorized-validator ERR-NOT-AUTHORIZED)
+    (ok true)
+  )
+)

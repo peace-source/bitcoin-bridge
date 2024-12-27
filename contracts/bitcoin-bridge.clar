@@ -55,3 +55,41 @@
   { user: principal }  ;; User address
   { amount: uint }     ;; Balance amount
 )
+
+;; Token Definition
+
+(define-fungible-token wrapped-bitcoin)
+
+;; Private Functions
+
+;; Authorization Check
+(define-private (check-is-bridge-owner)
+  (begin
+    (asserts! (is-eq tx-sender (var-get bridge-owner)) ERR-NOT-AUTHORIZED)
+    (ok true)
+  )
+)
+
+;; Validation Helpers
+(define-private (is-valid-principal (addr principal))
+  (and 
+    (not (is-eq addr tx-sender))
+    (not (is-eq addr .none))
+  )
+)
+
+(define-private (is-valid-tx-hash (hash (string-ascii 64)))
+  (and 
+    (not (is-eq hash ""))
+    (> (len hash) u10)
+  )
+)
+
+(define-private (get-user-balance-amount (user principal))
+  (let ((balance-opt (map-get? user-balances {user: user})))
+    (if (is-some balance-opt)
+        (get amount (unwrap-panic balance-opt))
+        u0
+    )
+  )
+)

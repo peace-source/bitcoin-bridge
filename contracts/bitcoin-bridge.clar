@@ -218,3 +218,21 @@
     (ok net-amount)
   )
 )
+
+;; Read-Only Functions
+
+(define-read-only (get-total-locked-bitcoin)
+  (var-get total-locked-bitcoin)
+)
+
+(define-read-only (get-user-balance (user principal))
+  (get-user-balance-amount user)
+)
+
+(define-read-only (is-oracle-authorized (oracle principal))
+  (default-to false (map-get? authorized-oracles oracle))
+)
+
+(define-read-only (is-bridge-owner (sender principal))
+  (is-eq sender (var-get bridge-owner))
+)

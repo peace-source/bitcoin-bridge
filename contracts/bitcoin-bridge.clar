@@ -18,3 +18,14 @@
 (define-constant ERR-INVALID-RECIPIENT (err u7))
 (define-constant ERR-MAX-DEPOSIT-EXCEEDED (err u8))
 (define-constant ERR-INVALID-TX-HASH (err u9))
+
+;; Data Variables
+
+;; Core Configuration
+(define-data-var bridge-owner principal tx-sender)
+(define-data-var is-bridge-paused bool false)
+(define-data-var bridge-fee-percentage uint u10)  ;; 1% default fee
+(define-data-var max-deposit-amount uint u10000000)  ;; Maximum deposit limit
+
+;; Bridge State
+(define-data-var total-locked-bitcoin uint u0)
